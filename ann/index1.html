@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تحذير! اختراق النظام بالكامل</title>
+    <!-- تحميل Tailwind CSS لأفضل تصميم -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* الخط المفضل للهاكرز واللون الأخضر النيون */
+        body {
+            background-color: #000;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            color: #00FF41; /* أخضر نيون */
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* تأثير توهج النص الأخضر */
+        .terminal-text {
+            text-shadow: 0 0 7px #00FF41, 0 0 10px #00FF41, 0 0 20px rgba(0, 255, 65, 0.4);
+        }
+
+        /* تأثير الرسالة الصادمة - أحمر ناري متوهج ومخيف جداً */
+        .scare-message {
+            color: #FF0000; /* أحمر ناري */
+            /* توهج أقوى بكثير */
+            text-shadow: 0 0 15px #FF0000, 0 0 30px #FF0000, 0 0 60px #FF0000, 0 0 120px #FF0000;
+            animation: pulse 0.5s infinite alternate; /* وميض أسرع */
+            z-index: 1000;
+            background-color: transparent;
+        }
+
+        /* وميض النبض للرسالة الصادمة */
+        @keyframes pulse {
+            from { opacity: 0.8; transform: scale(1); }
+            to { opacity: 1; transform: scale(1.05); }
+        }
+
+        /* تأثير اهتزاز الشاشة لزيادة الرعب */
+        @keyframes shake {
+            0% { transform: translate(1px, 1px) rotate(0deg); }
+            10% { transform: translate(-1px, -2px) rotate(-0.5deg); }
+            20% { transform: translate(-3px, 0px) rotate(0.5deg); }
+            30% { transform: translate(3px, 2px) rotate(0deg); }
+            40% { transform: translate(1px, -1px) rotate(0.5deg); }
+            50% { transform: translate(-1px, 2px) rotate(-0.5deg); }
+            60% { transform: translate(-3px, 1px) rotate(0deg); }
+            70% { transform: translate(3px, 1px) rotate(-0.5deg); }
+            80% { transform: translate(-1px, -1px) rotate(0.5deg); }
+            90% { transform: translate(1px, 2px) rotate(0deg); }
+            100% { transform: translate(1px, -2px) rotate(-0.5deg); }
+        }
+
+        .shaking {
+            animation: shake 0.1s infinite; /* اهتزاز سريع جداً */
+        }
+
+        /* تأثير حركة الخلفية للهاكر (Matrix Scroll) */
+        @keyframes matrixScroll {
+            /* يبدأ من الأعلى */
+            from { transform: translateY(0); }
+            /* يتحرك لأسفل بنسبة 50% من طول النص، لضمان استمرارية الحركة */
+            to { transform: translateY(-50%); }
+        }
+
+        /* محاكاة مؤشر الكتابة */
+        .cursor {
+            display: inline-block;
+            width: 8px;
+            height: 1em;
+            margin-right: 5px; /* RTL fix */
+            background-color: #00FF41;
+            animation: blink 1s step-end infinite;
+        }
+
+        @keyframes blink {
+            from, to { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        /* خلفية أكواد وهمية (Matrix Effect Lite) */
+        .code-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.05; /* أكثر وضوحاً */
+            pointer-events: none;
+            line-height: 1;
+            font-size: 8px; /* خط أصغر لزيادة الكثافة */
+            overflow: hidden;
+            white-space: pre-wrap;
+            /* تفعيل الحركة المستمرة */
+            animation: matrixScroll 60s linear infinite; /* سرعة الحركة: 60 ثانية للدورة الكاملة */
+        }
+
+        /* شاشة التحميل والمحاكاة */
+        #loading-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+            display: none; 
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 2rem;
+            box-sizing: border-box;
+            background-color: #000;
+            color: #00FF41;
+        }
+        
+        /* شاشة البداية للتفاعل */
+        #start-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 30; /* أعلى من كل شيء */
+            background-color: #000;
+            cursor: pointer; 
+            display: none; 
+        }
+
+        /* تصميم زر START النيوني */
+        #startButton {
+            background-color: #004d00; 
+            box-shadow: 0 0 15px #00FF41, 0 0 30px #00FF41;
+        }
+        #startButton:hover {
+            background-color: #006600;
+            box-shadow: 0 0 20px #00FF41, 0 0 40px #00FF41;
+        }
+
+        /* شاشة الرسالة النهائية */
+        #scare-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 20;
+            display: none; 
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background-color: rgba(0, 0, 0, 0.9);
+            animation: fadein 0.3s forwards; 
+        }
+        @keyframes fadein {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+    </style>
+</head>
+<body id="prank-body">
+
+    <!-- عنصر الصوت المخيف (تم وضع رابط MP3 وتفعيل التكرار LOOP) -->
+    <audio id="scare-audio" preload="auto" loop>
+        <source src="https://h.top4top.io/m_3609hq5of1.mp3" type="audio/mpeg">
+        متصفحك لا يدعم عنصر الصوت.
+    </audio>
+
+    <!-- خلفية الأكواد الوهمية (Matrix Style) -->
+    <div id="code-background" class="code-background"></div>
+    
+    <!-- شاشة البداية للتفاعل (Start Screen) -->
+    <div id="start-screen" class="terminal-text flex flex-col justify-center items-center h-full w-full">
+        <!-- زر START مصمم بشكل جميل -->
+        <button id="startButton" class="px-10 py-4 text-4xl font-bold rounded-xl border-2 border-green-500 transition duration-300 terminal-text">
+            START
+        </button>
+        <p class="mt-8 text-xl opacity-75 animate-pulse">
+             im zoh(annonymos)click here to start my game...
+        </p>
+    </div>
+
+    <!-- شاشة التحميل والمحاكاة (Loading Screen) -->
+    <div id="loading-screen" class="terminal-text">
+        <pre id="output"></pre><span class="cursor"></span>
+    </div>
+
+    <!-- شاشة الرسالة الصادمة (Scare Screen) -->
+    <div id="scare-screen" class="p-4">
+        <div class="scare-message">
+            <h1 class="text-7xl md:text-9xl font-bold mb-4">
+                YOU ARE HACKED
+            </h1>
+            <p class="text-4xl md:text-6xl font-extrabold mt-4">
+                BY ANNONYMOS
+            </p>
+            <p class="text-xl mt-10">
+                (تم تأمين النظام. جميع البيانات مشفرة بالكامل.
+            </p>
+            <p class="text-xl">
+                الرجاء عدم إغلاق النافذة تحت أي ظرف!)
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // المتغيرات العامة
+        const output = document.getElementById('output');
+        const loadingScreen = document.getElementById('loading-screen');
+        const scareScreen = document.getElementById('scare-screen');
+        const codeBackground = document.getElementById('code-background');
+        const prankBody = document.getElementById('prank-body');
+        const startScreen = document.getElementById('start-screen');
+        const startButton = document.getElementById('startButton');
+
+        // مفتاح الاستمرارية في ذاكرة التخزين المحلية
+        const PRANK_KEY = 'prankFinished';
+
+        // رسائل هجومية وشخصية أكثر لزيادة الرعب
+        const messages = [
+            "[!] ACCESS GRANTED. SYSTEM ROOT INITIATED.",
+            "[NETWORK] Scanning local files... Found: /Users/VictimName/Documents/Personal/...",
+            "[!CRITICAL] Activating Integrated Webcam and Microphone... (Permission Bypassed)",
+            "WE SEE YOU. WE HEAR YOU.", // رسالة قصيرة وصادمة
+            "[ENCRYPT] Initiating AES-256 data encryption protocol on C:\\...",
+            "[PROGRESS] 5%... 20%... 45% of personal files locked. Key discarded.",
+            "[PROCESS] Terminating System Explorer and Firewall services. You are isolated.",
+            "[ERROR] You have 30 seconds to react.",
+            "[FINAL] EXEC: DELETE_ALL /FORCE /PERMANENT",
+            "..." // وقفة مرعبة قبل ظهور الرسالة
+        ];
+
+        let messageIndex = 0;
+        let charIndex = 0;
+        let typingTimeout;
+
+        // دالة لمحاكاة الكتابة على الشاشة بسرعة فائقة (1ms بين الأحرف)
+        function typeMessage() {
+            loadingScreen.style.display = 'flex';
+
+            if (messageIndex < messages.length) {
+                const currentMessage = messages[messageIndex];
+                if (charIndex < currentMessage.length) {
+                    output.innerHTML += currentMessage.charAt(charIndex);
+                    charIndex++;
+                    // سرعة الكتابة: 1ms (سريع جداً)
+                    typingTimeout = setTimeout(typeMessage, 1);
+                } else {
+                    // الانتهاء من الرسالة الحالية
+                    output.innerHTML += '\n';
+                    messageIndex++;
+                    charIndex = 0;
+                    // انتظار أقصر (50ms) قبل بدء الرسالة التالية
+                    typingTimeout = setTimeout(typeMessage, 50);
+                }
+            } else {
+                // الانتهاء من جميع الرسائل، عرض الشاشة المرعبة
+                showScareScreen();
+            }
+        }
+
+        // دالة لعرض الشاشة المرعبة وتفعيل الاهتزاز وتشغيل الصوت
+        function showScareScreen() {
+            clearTimeout(typingTimeout);
+            loadingScreen.style.display = 'none';
+            scareScreen.style.display = 'flex';
+            // 1. تعيين علامة الانتهاء في ذاكرة التخزين المحلية
+            localStorage.setItem(PRANK_KEY, 'true'); 
+            // تفعيل اهتزاز الشاشة لزيادة الرعب
+            prankBody.classList.add('shaking');
+
+            // تشغيل الصوت: يعمل الآن بسبب تفاعل المستخدم مع زر START
+            const audio = document.getElementById('scare-audio');
+            // التأكد من البدء من البداية
+            audio.currentTime = 0; 
+            audio.play().catch(e => console.error("Audio playback failed:", e)); 
+        }
+
+        // دالة للانتقال مباشرة إلى شاشة الرعب (عند تحديث الصفحة بعد انتهاء الخدعة)
+        function skipToScareScreen() {
+            startScreen.style.display = 'none';
+            loadingScreen.style.display = 'none';
+            scareScreen.style.display = 'flex';
+            prankBody.classList.add('shaking');
+
+            // محاولة تشغيل الصوت عند التحديث أيضًا (سيعمل إذا كان المتصفح يسمح بالتشغيل التلقائي بعد تفاعل سابق)
+            const audio = document.getElementById('scare-audio');
+            audio.currentTime = 0;
+            audio.play().catch(e => {
+                // قد يفشل التشغيل التلقائي حتى هنا، لكننا نضمن عمله في المرة الأولى بعد START
+                console.warn("Audio playback failed on reload. User interaction needed again.");
+            });
+        }
+
+        // دالة تبدأ الخدعة بعد تفاعل المستخدم
+        function startPrank() {
+            // إخفاء شاشة البداية بعد النقر
+            startScreen.style.display = 'none';
+            // بدء التسلسل المرعب
+            typeMessage();
+        }
+
+        // دالة لتوليد خلفية الأكواد (Matrix Style)
+        function generateCodeBackground() {
+            const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_+-=<>?/~`{}[];:,"\'';
+            let codeText = '';
+            const screenWidth = window.innerWidth;
+            const screenHeight = window.innerHeight;
+            // تقدير عدد الأحرف اللازمة لملء الشاشة بـ 3 أضعاف الارتفاع
+            const totalChars = (screenWidth * screenHeight) / 5 * 3; 
+
+            for (let i = 0; i < totalChars; i++) {
+                codeText += chars.charAt(Math.floor(Math.random() * chars.length));
+                // إضافة مسافات عشوائية لمحاكاة تدفق الكود
+                if (Math.random() > 0.98) {
+                    codeText += '\n';
+                } else if (Math.random() > 0.9) {
+                    codeText += ' ';
+                }
+            }
+            codeBackground.textContent = codeText;
+        }
+
+        // بدء تشغيل الموقع
+        window.onload = function() {
+            generateCodeBackground();
+            
+            // التحقق من مفتاح الاستمرارية أولاً
+            if (localStorage.getItem(PRANK_KEY) === 'true') {
+                skipToScareScreen();
+            } else {
+                // إظهار شاشة البداية والانتظار لتفاعل المستخدم
+                startScreen.style.display = 'flex';
+                // إضافة المستمع للنقر على زر START
+                startButton.addEventListener('click', startPrank, { once: true });
+            }
+        };
+
+        // عند تغيير حجم الشاشة، قم بتحديث الخلفية
+        window.onresize = generateCodeBackground;
+
+        // منع محاولة إغلاق النافذة (خداع إضافي)
+        window.onbeforeunload = function() {
+            // يتم استخدام هذه الميزة فقط كخداع، لا يمكن منع الإغلاق فعلياً
+            return "تحذير: النظام تحت سيطرة جهة خارجية. إغلاق النافذة قد يسبب أضرارًا جسيمة.";
+        };
+
+    </script>
+    <script src="disable.js"></script>
+</body>
+</html>
